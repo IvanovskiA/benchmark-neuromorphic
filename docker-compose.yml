@@ -1,0 +1,72 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www/html
+      - ./storage/datasets:/data
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      APP_URL: http://localhost:8080
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_DATABASE: benchmark
+      DB_USERNAME: benchmark
+      DB_PASSWORD: secret
+      BENCHMARK_PYTHON: /usr/local/bin/python3
+      BENCHMARK_SCRIPT: /var/www/html/python/cli/run_benchmark.py
+      CICIDS_PATH: /data/cicids.csv
+      UNSW_NB15_PATH: /data/unsw_nb15.csv
+    networks:
+      - benchmark-net
+
+  python:
+    build:
+      context: .
+      dockerfile: Dockerfile.python
+    volumes:
+      - ./python:/app/python
+      - ./storage/datasets:/data
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_DATABASE: benchmark
+      DB_USERNAME: benchmark
+      DB_PASSWORD: secret
+      CICIDS_PATH: /data/cicids.csv
+      UNSW_NB15_PATH: /data/unsw_nb15.csv
+    networks:
+      - benchmark-net
+
+  postgres:
+    image: postgres:16-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: benchmark
+      POSTGRES_USER: benchmark
+      POSTGRES_PASSWORD: secret
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U benchmark -d benchmark"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - benchmark-net
+
+volumes:
+  pgdata:
+
+networks:
+  benchmark-net:
+    driver: bridge
