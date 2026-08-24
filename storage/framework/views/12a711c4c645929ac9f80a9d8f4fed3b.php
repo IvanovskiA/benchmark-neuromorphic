@@ -149,14 +149,14 @@
                             <?php $__currentLoopData = $comparison; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $row): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <tr class="hover:bg-slate-50">
                                     <td class="px-4 py-2 font-medium text-slate-900"><?php echo e($row['dataset']); ?></td>
-                                    <td class="px-4 py-2 font-mono text-neuromorphic"><?php echo e(\App\Support\MetricsFormat::f1($row['neuro_f1'])); ?></td>
-                                    <td class="px-4 py-2 font-mono text-baseline"><?php echo e(\App\Support\MetricsFormat::f1($row['baseline_f1'])); ?></td>
-                                    <td class="px-4 py-2 font-mono"><?php echo e(\App\Support\MetricsFormat::latency($row['neuro_latency'])); ?></td>
-                                    <td class="px-4 py-2 font-mono"><?php echo e(\App\Support\MetricsFormat::latency($row['baseline_latency'])); ?></td>
-                                    <td class="px-4 py-2 font-mono"><?php echo e(\App\Support\MetricsFormat::energy($row['neuro_energy'])); ?></td>
-                                    <td class="px-4 py-2 font-mono"><?php echo e(\App\Support\MetricsFormat::energy($row['baseline_energy'])); ?></td>
-                                    <td class="px-4 py-2 font-mono"><?php echo e(\App\Support\MetricsFormat::rate($row['neuro_fpr'])); ?></td>
-                                    <td class="px-4 py-2 font-mono"><?php echo e(\App\Support\MetricsFormat::rate($row['baseline_fpr'])); ?></td>
+                                    <td class="px-4 py-2 font-mono text-neuromorphic"><?php echo e(\App\Support\MetricsFormat::table($row['neuro_f1'])); ?></td>
+                                    <td class="px-4 py-2 font-mono text-baseline"><?php echo e(\App\Support\MetricsFormat::table($row['baseline_f1'])); ?></td>
+                                    <td class="px-4 py-2 font-mono"><?php echo e(\App\Support\MetricsFormat::table($row['neuro_latency'])); ?></td>
+                                    <td class="px-4 py-2 font-mono"><?php echo e(\App\Support\MetricsFormat::table($row['baseline_latency'])); ?></td>
+                                    <td class="px-4 py-2 font-mono"><?php echo e(\App\Support\MetricsFormat::table($row['neuro_energy'])); ?></td>
+                                    <td class="px-4 py-2 font-mono"><?php echo e(\App\Support\MetricsFormat::table($row['baseline_energy'])); ?></td>
+                                    <td class="px-4 py-2 font-mono"><?php echo e(\App\Support\MetricsFormat::table($row['neuro_fpr'])); ?></td>
+                                    <td class="px-4 py-2 font-mono"><?php echo e(\App\Support\MetricsFormat::table($row['baseline_fpr'])); ?></td>
                                 </tr>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </tbody>
@@ -173,6 +173,70 @@
 <?php unset($__componentOriginaldae4cd48acb67888a4631e1ba48f2f93); ?>
 <?php endif; ?>
         <?php endif; ?>
+
+        <?php if (isset($component)) { $__componentOriginaldae4cd48acb67888a4631e1ba48f2f93 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginaldae4cd48acb67888a4631e1ba48f2f93 = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.ui.card','data' => ['class' => 'mb-8']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('ui.card'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['class' => 'mb-8']); ?>
+            <h3 class="mb-4 text-lg font-semibold text-slate-900">All results</h3>
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-slate-200 text-xs">
+                    <thead class="bg-slate-100">
+                        <tr>
+                            <th class="px-3 py-2 text-left font-semibold">Dataset</th>
+                            <th class="px-3 py-2 text-left font-semibold">Architecture</th>
+                            <th class="px-3 py-2 text-left font-semibold">F1</th>
+                            <th class="px-3 py-2 text-left font-semibold">Latency</th>
+                            <th class="px-3 py-2 text-left font-semibold">Throughput</th>
+                            <th class="px-3 py-2 text-left font-semibold">Energy</th>
+                            <th class="px-3 py-2 text-left font-semibold">FPR</th>
+                            <th class="px-3 py-2 text-left font-semibold">Accuracy</th>
+                            <th class="px-3 py-2 text-left font-semibold">Precision</th>
+                            <th class="px-3 py-2 text-left font-semibold">Recall</th>
+                            <th class="px-3 py-2 text-left font-semibold">ROC-AUC</th>
+                            <th class="px-3 py-2 text-left font-semibold">Memory</th>
+                            <th class="px-3 py-2 text-left font-semibold">CPU %</th>
+                            <th class="px-3 py-2 text-left font-semibold">GPU %</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100">
+                        <?php $__currentLoopData = $runs; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $run): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <tr class="hover:bg-slate-50">
+                                <td class="px-3 py-2"><?php echo e($run->dataset->name); ?></td>
+                                <td class="px-3 py-2"><?php echo e($run->architecture->name); ?></td>
+                                <td class="px-3 py-2 font-mono"><?php echo e(\App\Support\MetricsFormat::table($run->metric->f1_score)); ?></td>
+                                <td class="px-3 py-2 font-mono"><?php echo e(\App\Support\MetricsFormat::table($run->metric->latency_ms)); ?></td>
+                                <td class="px-3 py-2 font-mono"><?php echo e(\App\Support\MetricsFormat::table($run->metric->throughput_ops_per_sec)); ?></td>
+                                <td class="px-3 py-2 font-mono"><?php echo e(\App\Support\MetricsFormat::table($run->metric->energy_joules_per_op)); ?></td>
+                                <td class="px-3 py-2 font-mono"><?php echo e(\App\Support\MetricsFormat::table($run->metric->false_positive_rate)); ?></td>
+                                <td class="px-3 py-2 font-mono"><?php echo e(\App\Support\MetricsFormat::table($run->metric->accuracy)); ?></td>
+                                <td class="px-3 py-2 font-mono"><?php echo e(\App\Support\MetricsFormat::table($run->metric->precision_score)); ?></td>
+                                <td class="px-3 py-2 font-mono"><?php echo e(\App\Support\MetricsFormat::table($run->metric->recall)); ?></td>
+                                <td class="px-3 py-2 font-mono"><?php echo e(\App\Support\MetricsFormat::table($run->metric->roc_auc)); ?></td>
+                                <td class="px-3 py-2 font-mono"><?php echo e(\App\Support\MetricsFormat::table($run->metric->memory_mb)); ?></td>
+                                <td class="px-3 py-2 font-mono"><?php echo e(\App\Support\MetricsFormat::table($run->metric->cpu_utilization)); ?></td>
+                                <td class="px-3 py-2 font-mono"><?php echo e(\App\Support\MetricsFormat::table($run->metric->gpu_utilization)); ?></td>
+                            </tr>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                    </tbody>
+                </table>
+            </div>
+         <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginaldae4cd48acb67888a4631e1ba48f2f93)): ?>
+<?php $attributes = $__attributesOriginaldae4cd48acb67888a4631e1ba48f2f93; ?>
+<?php unset($__attributesOriginaldae4cd48acb67888a4631e1ba48f2f93); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginaldae4cd48acb67888a4631e1ba48f2f93)): ?>
+<?php $component = $__componentOriginaldae4cd48acb67888a4631e1ba48f2f93; ?>
+<?php unset($__componentOriginaldae4cd48acb67888a4631e1ba48f2f93); ?>
+<?php endif; ?>
 
         <div class="grid gap-6 lg:grid-cols-2">
             <?php if (isset($component)) { $__componentOriginaldae4cd48acb67888a4631e1ba48f2f93 = $component; } ?>
@@ -241,6 +305,72 @@
 <?php $component = $__componentOriginaldae4cd48acb67888a4631e1ba48f2f93; ?>
 <?php unset($__componentOriginaldae4cd48acb67888a4631e1ba48f2f93); ?>
 <?php endif; ?>
+            <?php if (isset($component)) { $__componentOriginaldae4cd48acb67888a4631e1ba48f2f93 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginaldae4cd48acb67888a4631e1ba48f2f93 = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.ui.card','data' => []] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('ui.card'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes([]); ?>
+                <h3 class="mb-4 text-lg font-semibold text-slate-900">Accuracy / Precision / Recall</h3>
+                <canvas id="clsChart" height="260"></canvas>
+             <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginaldae4cd48acb67888a4631e1ba48f2f93)): ?>
+<?php $attributes = $__attributesOriginaldae4cd48acb67888a4631e1ba48f2f93; ?>
+<?php unset($__attributesOriginaldae4cd48acb67888a4631e1ba48f2f93); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginaldae4cd48acb67888a4631e1ba48f2f93)): ?>
+<?php $component = $__componentOriginaldae4cd48acb67888a4631e1ba48f2f93; ?>
+<?php unset($__componentOriginaldae4cd48acb67888a4631e1ba48f2f93); ?>
+<?php endif; ?>
+            <?php if (isset($component)) { $__componentOriginaldae4cd48acb67888a4631e1ba48f2f93 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginaldae4cd48acb67888a4631e1ba48f2f93 = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.ui.card','data' => []] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('ui.card'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes([]); ?>
+                <h3 class="mb-4 text-lg font-semibold text-slate-900">ROC-AUC</h3>
+                <canvas id="aucChart" height="260"></canvas>
+             <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginaldae4cd48acb67888a4631e1ba48f2f93)): ?>
+<?php $attributes = $__attributesOriginaldae4cd48acb67888a4631e1ba48f2f93; ?>
+<?php unset($__attributesOriginaldae4cd48acb67888a4631e1ba48f2f93); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginaldae4cd48acb67888a4631e1ba48f2f93)): ?>
+<?php $component = $__componentOriginaldae4cd48acb67888a4631e1ba48f2f93; ?>
+<?php unset($__componentOriginaldae4cd48acb67888a4631e1ba48f2f93); ?>
+<?php endif; ?>
+            <?php if (isset($component)) { $__componentOriginaldae4cd48acb67888a4631e1ba48f2f93 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginaldae4cd48acb67888a4631e1ba48f2f93 = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.ui.card','data' => ['class' => 'lg:col-span-2']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('ui.card'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['class' => 'lg:col-span-2']); ?>
+                <h3 class="mb-4 text-lg font-semibold text-slate-900">ROC curves</h3>
+                <canvas id="rocOverlayChart" height="260"></canvas>
+             <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginaldae4cd48acb67888a4631e1ba48f2f93)): ?>
+<?php $attributes = $__attributesOriginaldae4cd48acb67888a4631e1ba48f2f93; ?>
+<?php unset($__attributesOriginaldae4cd48acb67888a4631e1ba48f2f93); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginaldae4cd48acb67888a4631e1ba48f2f93)): ?>
+<?php $component = $__componentOriginaldae4cd48acb67888a4631e1ba48f2f93; ?>
+<?php unset($__componentOriginaldae4cd48acb67888a4631e1ba48f2f93); ?>
+<?php endif; ?>
         </div>
 
         <script>
@@ -251,6 +381,11 @@
                 const latency = <?php echo json_encode($chartData['latency'], 15, 512) ?>;
                 const throughput = <?php echo json_encode($chartData['throughput'], 15, 512) ?>;
                 const energy = <?php echo json_encode($chartData['energy'], 15, 512) ?>;
+                const accuracy = <?php echo json_encode($chartData['accuracy'], 15, 512) ?>;
+                const precision = <?php echo json_encode($chartData['precision'], 15, 512) ?>;
+                const recall = <?php echo json_encode($chartData['recall'], 15, 512) ?>;
+                const rocAuc = <?php echo json_encode($chartData['roc_auc'], 15, 512) ?>;
+                const rocSeries = <?php echo json_encode($chartData['roc_series'], 15, 512) ?>;
 
                 const formatTick = (v) => {
                     const n = Number(v);
@@ -309,6 +444,58 @@
                                 type: 'logarithmic',
                                 ticks: { callback: (v) => Number(v).toExponential(1) },
                             },
+                        },
+                    },
+                });
+
+                new Chart(document.getElementById('clsChart'), {
+                    type: 'bar',
+                    data: {
+                        labels,
+                        datasets: [
+                            { label: 'Accuracy', data: accuracy, backgroundColor: '#0ea5e9' },
+                            { label: 'Precision', data: precision, backgroundColor: '#f59e0b' },
+                            { label: 'Recall', data: recall, backgroundColor: '#ec4899' },
+                        ],
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: { tooltip: chartTooltip },
+                        scales: { y: { beginAtZero: true, max: 1, ticks: { callback: formatTick } } },
+                    },
+                });
+
+                new Chart(document.getElementById('aucChart'), {
+                    type: 'bar',
+                    data: {
+                        labels,
+                        datasets: [{ label: 'ROC-AUC', data: rocAuc, backgroundColor: '#8b5cf6' }],
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: { tooltip: chartTooltip },
+                        scales: { y: { beginAtZero: true, max: 1, ticks: { callback: formatTick } } },
+                    },
+                });
+
+                const rocColors = ['#8b5cf6', '#2563eb', '#10b981', '#f59e0b', '#ef4444', '#64748b'];
+                new Chart(document.getElementById('rocOverlayChart'), {
+                    type: 'line',
+                    data: {
+                        datasets: (rocSeries || []).map((series, i) => ({
+                            label: series.label,
+                            data: (series.fpr || []).map((x, idx) => ({ x, y: (series.tpr || [])[idx] })),
+                            borderColor: rocColors[i % rocColors.length],
+                            backgroundColor: 'transparent',
+                            pointRadius: 0,
+                            tension: 0,
+                        })),
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            x: { type: 'linear', min: 0, max: 1, title: { display: true, text: 'FPR' } },
+                            y: { min: 0, max: 1, title: { display: true, text: 'TPR' } },
                         },
                     },
                 });

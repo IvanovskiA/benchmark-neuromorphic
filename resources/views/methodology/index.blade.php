@@ -16,6 +16,7 @@
             <ul class="mt-4 list-inside list-disc space-y-2 text-sm text-slate-600">
                 <li><span class="font-medium text-neuromorphic">Intel Lava</span> — Loihi CPU simulation via <code class="rounded bg-slate-100 px-1.5 py-0.5 text-xs">Loihi1SimCfg</code></li>
                 <li><span class="font-medium text-neuromorphic">IBM NSCS</span> — TrueNorth neuromorphic simulator (LIF neuron model, binary synapses)</li>
+                <li><span class="font-medium text-slate-800">MNSIM IMC</span> — In-Memory Computing / PIM adapter of MNSIM 2.0 (crossbar MAC + DAC/ADC), not a spiking chip</li>
                 <li><span class="font-medium text-baseline">CPU / GPU baselines</span> — Von Neumann MLP / PyTorch reference for direct comparison</li>
             </ul>
         </x-ui.card>
@@ -59,11 +60,11 @@
                     <tbody class="divide-y divide-slate-100">
                         <tr>
                             <td class="px-4 py-2 text-slate-600">Primary (hardware performance)</td>
-                            <td class="px-4 py-2 font-mono text-slate-800">Latency, Throughput, Energy (J/Op)</td>
+                            <td class="px-4 py-2 font-mono text-slate-800">Latency, Throughput, Energy (J/Op), Memory, CPU/GPU Utilization</td>
                         </tr>
                         <tr>
                             <td class="px-4 py-2 text-slate-600">Accuracy (classification)</td>
-                            <td class="px-4 py-2 font-mono text-slate-800">FPR, F1-score</td>
+                            <td class="px-4 py-2 font-mono text-slate-800">FPR, F1-score, Accuracy, Precision, Recall, ROC-AUC</td>
                         </tr>
                     </tbody>
                 </table>

@@ -81,8 +81,18 @@ def predict_snn(
     X: np.ndarray,
     device: torch.device,
 ) -> np.ndarray:
+    logits = snn_logits(model, scaler, X, device)
+    return logits.argmax(dim=1).cpu().numpy()
+
+
+def snn_logits(model: ThreatSNN, scaler: StandardScaler, X: np.ndarray, device: torch.device):
     model.eval()
     with torch.no_grad():
         X_t = _to_tensor(scaler.transform(X), device)
-        logits = model(X_t)
-        return logits.argmax(dim=1).cpu().numpy()
+        return model(X_t)
+
+
+def snn_positive_scores(model: ThreatSNN, scaler: StandardScaler, X: np.ndarray, device: torch.device) -> np.ndarray:
+    logits = snn_logits(model, scaler, X, device)
+    probs = torch.softmax(logits, dim=1)
+    return probs[:, 1].cpu().numpy()

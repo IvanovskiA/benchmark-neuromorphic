@@ -1,0 +1,10 @@
+{
+  "array_size": 128,
+  "cell_precision_bits": 4,
+  "dac_precision_bits": 8,
+  "adc_precision_bits": 8,
+  "read_latency_ns": 10.0,
+  "cell_read_energy_j": 1.5e-12,
+  "dac_energy_j": 8.0e-13,
+  "adc_energy_j": 2.0e-12
+}

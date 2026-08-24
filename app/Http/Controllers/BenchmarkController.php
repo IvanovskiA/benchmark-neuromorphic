@@ -106,6 +106,21 @@ class BenchmarkController extends Controller
             'throughput' => $runs->pluck('metric.throughput_ops_per_sec')->map(fn ($v) => $this->metricFloat($v))->values(),
             'energy' => $runs->pluck('metric.energy_joules_per_op')->map(fn ($v) => $this->metricFloat($v))->values(),
             'fpr' => $runs->pluck('metric.false_positive_rate')->map(fn ($v) => $this->metricFloat($v))->values(),
+            'accuracy' => $runs->pluck('metric.accuracy')->map(fn ($v) => $this->metricFloat($v))->values(),
+            'precision' => $runs->pluck('metric.precision_score')->map(fn ($v) => $this->metricFloat($v))->values(),
+            'recall' => $runs->pluck('metric.recall')->map(fn ($v) => $this->metricFloat($v))->values(),
+            'roc_auc' => $runs->pluck('metric.roc_auc')->map(fn ($v) => $this->metricFloat($v))->values(),
+            'memory' => $runs->pluck('metric.memory_mb')->map(fn ($v) => $this->metricFloat($v))->values(),
+            'cpu' => $runs->pluck('metric.cpu_utilization')->map(fn ($v) => $this->metricFloat($v))->values(),
+            'gpu' => $runs->pluck('metric.gpu_utilization')->map(fn ($v) => $this->metricFloat($v))->values(),
+            'roc_series' => $runs->map(function ($run) {
+                $curve = $run->metric?->roc_curve ?? [];
+                return [
+                    'label' => $run->architecture->name.' / '.$run->dataset->name,
+                    'fpr' => $curve['fpr'] ?? [0, 1],
+                    'tpr' => $curve['tpr'] ?? [0, 1],
+                ];
+            })->values(),
         ];
 
         return view('benchmarks.charts', compact('datasets', 'architectures', 'runs', 'chartData', 'comparison'));
@@ -118,7 +133,7 @@ class BenchmarkController extends Controller
         $rows = [];
         foreach ($grouped as $datasetName => $datasetRuns) {
             $neuro = $datasetRuns->filter(fn ($r) => $r->architecture->is_neuromorphic);
-            $baseline = $datasetRuns->filter(fn ($r) => ! $r->architecture->is_neuromorphic);
+            $baseline = $datasetRuns->filter(fn ($r) => in_array($r->architecture->slug, ['cpu_baseline', 'gpu_baseline'], true));
 
             if ($neuro->isEmpty() || $baseline->isEmpty()) {
                 continue;
@@ -186,6 +201,18 @@ class BenchmarkController extends Controller
             'energy_by_architecture' => [
                 'labels' => $completedRuns->keys()->values()->all(),
                 'values' => $completedRuns->map(fn ($group) => $this->metricFloat($group->avg(fn ($r) => $r->metric->energy_joules_per_op)))->values()->all(),
+            ],
+            'accuracy_by_architecture' => [
+                'labels' => $completedRuns->keys()->values()->all(),
+                'values' => $completedRuns->map(fn ($group) => $this->metricFloat($group->avg(fn ($r) => $r->metric->accuracy)))->values()->all(),
+            ],
+            'precision_by_architecture' => [
+                'labels' => $completedRuns->keys()->values()->all(),
+                'values' => $completedRuns->map(fn ($group) => $this->metricFloat($group->avg(fn ($r) => $r->metric->precision_score)))->values()->all(),
+            ],
+            'recall_by_architecture' => [
+                'labels' => $completedRuns->keys()->values()->all(),
+                'values' => $completedRuns->map(fn ($group) => $this->metricFloat($group->avg(fn ($r) => $r->metric->recall)))->values()->all(),
             ],
         ];
     }

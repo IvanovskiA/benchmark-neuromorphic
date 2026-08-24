@@ -25,29 +25,39 @@ class MetricsFormat
         return rtrim(rtrim($formatted, '0'), '.') ?: '0';
     }
 
+    /** Fixed 4 decimal places for History / Charts tables. */
+    public static function table(mixed $value): string
+    {
+        if ($value === null) {
+            return '—';
+        }
+
+        return number_format((float) $value, 4, '.', '');
+    }
+
     public static function f1(mixed $value): string
     {
-        return self::decimal($value, 6);
+        return self::table($value);
     }
 
     public static function rate(mixed $value): string
     {
-        return self::decimal($value, 6);
+        return self::table($value);
     }
 
     public static function latency(mixed $value): string
     {
-        return self::decimal($value);
+        return self::table($value);
     }
 
     public static function throughput(mixed $value): string
     {
-        return self::decimal($value);
+        return self::table($value);
     }
 
     public static function energy(mixed $joules): string
     {
-        return self::decimal($joules);
+        return self::table($joules);
     }
 
     /** Display-only formatting for dashboard / show stat cards (4 decimal places). */

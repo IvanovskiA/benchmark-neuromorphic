@@ -18,8 +18,9 @@ Open: http://localhost:8080
 | **SNN threat detectors** | snnTorch Spiking Neural Networks |
 | **Intel Lava / Loihi** | `Loihi1SimCfg` CPU simulation (Lava framework) |
 | **IBM NSCS / TrueNorth** | TrueNorth LIF neuron model (NSCS-style) |
+| **MNSIM IMC** | In-Memory Computing adapter (`python/vendor/mnsim` + `backends/mnsim_imc.py`) |
 | **Baselines** | CPU (sklearn MLP) + GPU (PyTorch, CPU fallback) |
-| **Metrics** | Latency, Throughput, Energy (J/Op), FPR, F1-score |
+| **Metrics** | Latency, Throughput, Energy (J/Op), FPR, F1, Accuracy, Precision, Recall, ROC-AUC, Memory, CPU/GPU utilization |
 | **Visualization** | Chart.js graphs + comparison table |
 | **Methodology** | `/methodology` — architecture, datasets, framework |
 

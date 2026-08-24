@@ -10,7 +10,7 @@ import traceback
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from backends import cpu_baseline, gpu_baseline, ibm_nscs, lava_loihi
+from backends import cpu_baseline, gpu_baseline, ibm_nscs, lava_loihi, mnsim_imc
 from datasets.loader import load_dataset
 from db.connection import fetch_run
 from db.writer import insert_metric, update_run_status
@@ -20,6 +20,7 @@ BACKENDS = {
     "gpu_baseline": gpu_baseline.run,
     "lava_loihi": lava_loihi.run,
     "ibm_nscs": ibm_nscs.run,
+    "mnsim_imc": mnsim_imc.run,
 }
 
 

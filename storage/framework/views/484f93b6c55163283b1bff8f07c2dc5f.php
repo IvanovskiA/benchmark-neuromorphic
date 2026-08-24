@@ -37,6 +37,7 @@ unset($__defined_vars); ?>
                 <th class="px-4 py-3 text-left font-semibold text-slate-600">Architecture</th>
                 <th class="px-4 py-3 text-left font-semibold text-slate-600">Status</th>
                 <th class="px-4 py-3 text-left font-semibold text-slate-600">F1</th>
+                <th class="px-4 py-3 text-left font-semibold text-slate-600">Accuracy</th>
                 <th class="px-4 py-3 text-left font-semibold text-slate-600">Latency</th>
                 <th class="px-4 py-3 text-left font-semibold text-slate-600">Date</th>
                 <th class="px-4 py-3"></th>
@@ -68,8 +69,9 @@ unset($__defined_vars); ?>
 <?php $component = $__componentOriginalab7baa01105b3dfe1e0cf1dfc58879b4; ?>
 <?php unset($__componentOriginalab7baa01105b3dfe1e0cf1dfc58879b4); ?>
 <?php endif; ?></td>
-                    <td class="px-4 py-3 font-mono"><?php echo e($run->metric?->f1_score !== null ? \App\Support\MetricsFormat::f1($run->metric->f1_score) : '—'); ?></td>
-                    <td class="px-4 py-3 font-mono"><?php echo e($run->metric?->latency_ms !== null ? \App\Support\MetricsFormat::latency($run->metric->latency_ms) : '—'); ?></td>
+                    <td class="px-4 py-3 font-mono"><?php echo e($run->metric?->f1_score !== null ? \App\Support\MetricsFormat::table($run->metric->f1_score) : '—'); ?></td>
+                    <td class="px-4 py-3 font-mono"><?php echo e($run->metric?->accuracy !== null ? \App\Support\MetricsFormat::table($run->metric->accuracy) : '—'); ?></td>
+                    <td class="px-4 py-3 font-mono"><?php echo e($run->metric?->latency_ms !== null ? \App\Support\MetricsFormat::table($run->metric->latency_ms) : '—'); ?></td>
                     <td class="px-4 py-3"><?php echo e($run->created_at->format('Y-m-d H:i')); ?></td>
                     <td class="px-4 py-3 text-right">
                         <a href="<?php echo e(route('benchmarks.show', $run, false)); ?>" class="text-brand-600 hover:text-brand-700">Details</a>

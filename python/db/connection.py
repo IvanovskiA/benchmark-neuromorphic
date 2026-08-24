@@ -26,6 +26,9 @@ def fetch_run(run_id: str) -> dict:
                 JOIN datasets d ON d.id = br.dataset_id
                 JOIN architectures a ON a.id = br.architecture_id
                 WHERE br.id = %s
+                  AND br.deleted_at IS NULL
+                  AND d.deleted_at IS NULL
+                  AND a.deleted_at IS NULL
                 """,
                 (run_id,),
             )

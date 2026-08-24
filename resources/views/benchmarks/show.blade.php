@@ -29,7 +29,54 @@
             <x-ui.stat-card label="Latency (ms)" :value="\App\Support\MetricsFormat::card($run->metric->latency_ms)" />
             <x-ui.stat-card label="Throughput (ops/s)" :value="\App\Support\MetricsFormat::card($run->metric->throughput_ops_per_sec)" />
             <x-ui.stat-card label="Energy (J/Op)" :value="\App\Support\MetricsFormat::card($run->metric->energy_joules_per_op)" />
+            <x-ui.stat-card label="Accuracy" :value="\App\Support\MetricsFormat::card($run->metric->accuracy)" />
+            <x-ui.stat-card label="Precision" :value="\App\Support\MetricsFormat::card($run->metric->precision_score)" />
+            <x-ui.stat-card label="Recall" :value="\App\Support\MetricsFormat::card($run->metric->recall)" />
+            <x-ui.stat-card label="ROC-AUC" :value="\App\Support\MetricsFormat::card($run->metric->roc_auc)" />
+            <x-ui.stat-card label="Memory (MB)" :value="\App\Support\MetricsFormat::card($run->metric->memory_mb)" />
+            <x-ui.stat-card label="CPU Utilization (%)" :value="\App\Support\MetricsFormat::card($run->metric->cpu_utilization)" />
+            <x-ui.stat-card label="GPU Utilization (%)" :value="\App\Support\MetricsFormat::card($run->metric->gpu_utilization)" />
         </div>
+
+        @php
+            $roc = $run->metric->roc_curve ?? [];
+            $rocFpr = $roc['fpr'] ?? [];
+            $rocTpr = $roc['tpr'] ?? [];
+        @endphp
+        @if(count($rocFpr) > 1)
+            <x-ui.card class="mt-6">
+                <h3 class="mb-4 text-lg font-semibold text-slate-900">ROC curve</h3>
+                <canvas id="rocChart" height="220"></canvas>
+            </x-ui.card>
+            <script>
+                document.addEventListener('DOMContentLoaded', () => {
+                    const fpr = @json($rocFpr);
+                    const tpr = @json($rocTpr);
+                    new Chart(document.getElementById('rocChart'), {
+                        type: 'line',
+                        data: {
+                            labels: fpr,
+                            datasets: [{
+                                label: 'TPR',
+                                data: tpr.map((y, i) => ({ x: fpr[i], y })),
+                                borderColor: '#8b5cf6',
+                                backgroundColor: 'transparent',
+                                pointRadius: 0,
+                                tension: 0,
+                            }],
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: { legend: { display: false } },
+                            scales: {
+                                x: { type: 'linear', min: 0, max: 1, title: { display: true, text: 'False Positive Rate' } },
+                                y: { min: 0, max: 1, title: { display: true, text: 'True Positive Rate' } },
+                            },
+                        },
+                    });
+                });
+            </script>
+        @endif
     @else
         <x-ui.card>
             <p class="text-sm text-slate-500">No metrics available for this run.</p>

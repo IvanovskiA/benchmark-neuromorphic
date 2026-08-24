@@ -1,0 +1,306 @@
+================================================================================
+ШТО Е ИЗРАБОТЕНО — MNSIM IMC + нови метрики
+Проект: benchmark-neuromorphic (Laravel + Python + PostgreSQL + Docker)
+Апликација: http://localhost:8080
+================================================================================
+
+Цел: пет архитектури (CPU Baseline, GPU Baseline, Intel Lava / Loihi,
+IBM NSCS / TrueNorth, MNSIM IMC) и проширени метрики во PostgreSQL,
+табели и графикони, без да се скршат постоечките backend-и и старите метрики.
+
+Дополнително по основната задача: soft delete (deleted_at), приказ на
+бројки во табели со 4 децимали, и SQL export за pgAdmin 4.
+
+Ако Docker не работи, во папката benchmark-neuromorphic изврши:
+
+    docker compose up -d
+
+потоа отвори http://localhost:8080
+
+
+--------------------------------------------------------------------------------
+1. TrueNorth останува
+--------------------------------------------------------------------------------
+
+ШТО Е НАПРАВЕНО
+- ibm_nscs останува во python/cli/run_benchmark.py (BACKENDS).
+- python/backends/ibm_nscs.py и python/simulators/truenorth_lif.py не се
+  тргани; логиката на TrueNorth симулацијата е иста.
+- database/seeders/DatabaseSeeder.php сè уште го има редот
+  ibm_nscs / IBM NSCS / TrueNorth.
+- Methodology страницата сè уште го опишува TrueNorth.
+- TrueNorth е neuromorphic (spikes). MNSIM IMC е посебна, петта архитектура
+  (in-memory computing), не замена за TrueNorth.
+
+КАКО ДА СЕ ПРОВЕРИ (секција 1)
+
+Прво направи:
+- docker compose up -d (ако не е веќе стартувано)
+- отвори http://localhost:8080
+
+Каде да погледнеш:
+1. UI: Start new benchmark — во Architecture мора да стои
+   IBM NSCS / TrueNorth (не смее да исчезне).
+2. UI: Methodology — текстот за IBM NSCS / TrueNorth сè уште постои.
+3. База (опционално): табела architectures — редот slug = ibm_nscs постои.
+
+Што да очекуваш:
+- 5 архитектури во dropdown (4 стари + MNSIM IMC).
+- Старите completed TrueNorth runs остануваат во History (освен ако се
+  soft-избришани од UI).
+
+
+--------------------------------------------------------------------------------
+2. MNSIM + backend адаптер (петта архитектура)
+--------------------------------------------------------------------------------
+
+ШТО Е НАПРАВЕНО
+- MNSIM не е pip пакет; вклучен е vendor код во python/vendor/mnsim
+  и наш адаптер што го поврзува со CLI.
+- python/backends/mnsim_imc.py — run(X_train, y_train, X_test, y_test)
+- python/simulators/mnsim_adapter.py — PIM/IMC модел за latency/energy
+  (crossbar проценка). Класификацијата на CICIDS/UNSW е sklearn MLP,
+  затоа што MNSIM е наменет за CNN/CIFAR, не за IDS CSV директно.
+- CLI: BACKENDS["mnsim_imc"] = mnsim_imc.run
+- Seeder: slug mnsim_imc, име MNSIM IMC, is_neuromorphic = false
+- Methodology: нова точка за IMC / MNSIM
+- Python во Laravel app контејнерот: BENCHMARK_PYTHON=/usr/local/bin/python3
+  (за да има sklearn, psutil, torch). UI не го користи посебниот python
+  Compose сервис за Process повиците.
+
+КАКО ДА СЕ ПРОВЕРИ (секција 2)
+
+Прво направи:
+1. docker compose up -d
+2. Refresh на http://localhost:8080/benchmarks/create (Ctrl+F5)
+
+Каде да погледнеш:
+1. UI: Architecture dropdown — 5 опции. Новата се вика MNSIM IMC.
+2. UI: Methodology — IMC користи MNSIM + адаптер; TrueNorth е одделно.
+3. База: architectures — 5 реда. Нов: slug = mnsim_imc.
+   Стариот ibm_nscs сè уште постои.
+
+Што да очекуваш:
+- Можеш да избереш MNSIM IMC + CICIDS и Start.
+- Run-от треба да заврши со status completed (може да трае подолго од CPU).
+- Ако падне, на Show ќе има error — тоа не е нормално.
+
+
+--------------------------------------------------------------------------------
+3. Нови метрики: Accuracy, Recall, Precision, ROC-AUC, Memory, CPU/GPU
+--------------------------------------------------------------------------------
+
+ШТО Е НАПРАВЕНО
+Python:
+- python/metrics/accuracy.py — F1, FPR + accuracy, precision, recall,
+  roc_auc, roc_curve (FPR/TPR точки)
+- python/metrics/resources.py — memory (MB), CPU %, GPU % (0 без CUDA)
+- python/metrics/bundle.py — pack_metrics()
+- Сите backend-и (CPU, GPU, Lava, TrueNorth, MNSIM IMC) ги враќаат
+  старите и новите клучеви
+- python/db/writer.py — INSERT/UPDATE ги вклучува новите колони
+- psutil во python/requirements.txt
+
+Laravel / DB:
+- Migration: accuracy, precision_score, recall, roc_auc, memory_mb,
+  cpu_utilization, gpu_utilization, roc_curve (JSON)
+- Старите колони НЕ се бришат: f1_score, latency_ms,
+  throughput_ops_per_sec, energy_joules_per_op, false_positive_rate
+- BenchmarkMetric model: fillable + casts
+- Show страница: стари 5 картички + нови + ROC chart
+
+КАКО ДА СЕ ПРОВЕРИ (секција 3)
+
+Прво направи:
+1. Миграциите се веќе применети во Docker.
+2. Пушти НОВ benchmark (барем еден). Старите runs немаат пополнети нови
+   колони (празни / 0) — тоа е нормално.
+
+Каде да погледнеш:
+1. База: колоните на benchmark_metrics — и старите и новите.
+2. UI Show на НОВ completed run: Accuracy, Precision, Recall, ROC-AUC,
+   Memory, CPU/GPU % покрај F1/FPR/Latency.
+3. UI Show: график ROC curve (линија).
+
+Што да очекуваш:
+- Accuracy / Precision / Recall / ROC-AUC: меѓу 0 и 1
+- Memory: MB (на пр. десетици до стотици), не 0 кај нов run
+- CPU utilization: 0–100
+- GPU utilization: 0 во Docker без CUDA (точно за CPU/Lava/TrueNorth/IMC);
+  >0 само ако GPU backend работи на вистинска GPU
+- Стар TrueNorth run на Show: старите метрики се гледаат; новите може
+  да се празни до повторно пуштање
+
+
+--------------------------------------------------------------------------------
+4. Табела со сите резултати + графикони по 5 архитектури
+--------------------------------------------------------------------------------
+
+ШТО Е НАПРАВЕНО
+- Charts: табела All results (dataset, architecture, стари + нови метрики)
+- Charts: Comparison Table (neuromorphic vs CPU/GPU baseline; IMC не влегува
+  во baseline просек)
+- Charts: bar charts + ROC overlay
+- Dashboard: Accuracy / Precision / Recall графикони; doughnut по архитектура
+- History: колона Accuracy покрај F1 и Latency
+- Филтерот Architecture вклучува MNSIM IMC
+
+КАКО ДА СЕ ПРОВЕРИ (секција 4)
+
+Прво направи:
+1. Пушти по еден нов run за архитектурите што сакаш на графикон
+   (идеално сите 5, може само CICIDS).
+2. Отвори Charts и Dashboard со Ctrl+F5.
+
+Каде да погледнеш:
+1. Charts — табела со колони: F1, latency, throughput, energy, FPR,
+   accuracy, precision, recall, ROC-AUC, memory, CPU, GPU
+2. Charts — графикони; на X-оската имињата вклучувајќи MNSIM IMC и TrueNorth
+3. Dashboard — Total Runs by Architecture: до 5 парчиња ако има runs
+   за сите
+4. History — листа и пагинација на :8080
+
+Што да очекуваш:
+- Latency столбови за CPU/GPU може да се мали (log scale).
+- ROC кривата почнува близу (0,0) и оди кон (1,1).
+- Ако нема нов run за IMC, тој столб ќе недостасува — пушти run.
+
+
+--------------------------------------------------------------------------------
+5. Старите метрики остануваат
+--------------------------------------------------------------------------------
+
+ШТО Е НАПРАВЕНО
+- Нема DROP на стари колони.
+- profile_inference останува извор за latency / throughput / energy.
+- FPR останува во compute_metrics.
+- Show картичките F1, FPR, Latency, Throughput, Energy остануваат;
+  новите се ДОДАДЕНИ.
+
+КАКО ДА СЕ ПРОВЕРИ (секција 5)
+
+Прво направи:
+- Отвори стар completed run (пред проширувањето) И еден нов run.
+
+Каде да погледнеш:
+1. Show на СТАР run: F1, FPR, Latency, Throughput, Energy се гледаат
+   (не „—“ за нив).
+2. Show на НОВ run: истите пет плус новите.
+3. База: колоните f1_score, latency_ms, throughput_ops_per_sec,
+   energy_joules_per_op, false_positive_rate постојат.
+
+Што да очекуваш:
+- Ништо од старото не е преименувано.
+- Energy може да е многу мал број.
+- Картичките на Dashboard/Show се заокружени на 4 децимали.
+
+
+--------------------------------------------------------------------------------
+6. Soft delete (deleted_at) — дополнително
+--------------------------------------------------------------------------------
+
+ШТО Е НАПРАВЕНО
+- На табелите datasets, architectures, benchmark_runs, benchmark_metrics
+  последна колона е deleted_at.
+- Eloquent SoftDeletes на сите четири модели.
+- Бришење на benchmark од History/Show е soft delete (редот останува во
+  PostgreSQL со дата во deleted_at).
+- При бришење на run се soft-брише и поврзаната метрика, за да не влегува
+  во просеци на dashboard.
+- Python fetch_run ги игнорира редовите со deleted_at.
+
+КАКО ДА СЕ ПРОВЕРИ (секција 6)
+
+Прво направи:
+- Во History избриши еден completed run (Delete).
+
+Каде да погледнеш:
+1. UI History / Charts / Dashboard — избришаниот run повеќе не се гледа.
+2. Show на тој ID — 404 (не се вчитува soft-избришан).
+3. База: редот во benchmark_runs сè уште постои; deleted_at НЕ е NULL.
+   Исто и соодветниот ред во benchmark_metrics.
+
+Што да очекуваш:
+- Нема физичко бришење на редот.
+- Новите просеци не го вклучуваат избришаниот run.
+
+
+--------------------------------------------------------------------------------
+7. Заокружување на 4 децимали во табели — дополнително
+--------------------------------------------------------------------------------
+
+ШТО Е НАПРАВЕНО
+- Приказ во UI (не се менуваат вредностите во базата).
+- History табела: F1, Accuracy, Latency — точно 4 децимали
+  (на пр. 0.8765, 12.1000).
+- Charts: Comparison Table — сите нумерички колони на 4 децимали.
+- Charts: All results — сите нумерички колони на 4 децимали.
+
+КАКО ДА СЕ ПРОВЕРИ (секција 7)
+
+Прво направи:
+- Отвори History и Charts (Ctrl+F5).
+
+Каде да погледнеш:
+1. History — бројките во F1 / Accuracy / Latency.
+2. Charts — Comparison Table.
+3. Charts — All results.
+
+Што да очекуваш:
+- Секој број има четири цифри после точката.
+- NULL / нема метрика останува како „—“.
+
+
+--------------------------------------------------------------------------------
+Регресија извршена при изградба
+--------------------------------------------------------------------------------
+
+- php artisan migrate --force — успех, без drop на стари колони
+- seeder: 5 architectures; ibm_nscs не е избришан
+- Python backend-и cpu_baseline, ibm_nscs, mnsim_imc се регистрирани
+- HTTP: Dashboard, create, methodology, charts, history
+- Dropdown: 5 архитектури
+- MNSIM IMC smoke run (CICIDS) — completed, memory/CPU пополнети
+- Soft delete migration применета
+- database/database.sql — dump од тековната Docker база
+
+
+--------------------------------------------------------------------------------
+Како да се импортира database.sql во pgAdmin 4
+--------------------------------------------------------------------------------
+
+Фајл: database/database.sql
+Ова е обичен SQL скрипт (шема + податоци + индекси + FK), не .backup.
+НЕ користи Restore во pgAdmin за овој фајл.
+
+Чекори:
+1. Отвори pgAdmin 4 и поврзи се на PostgreSQL сервер.
+2. Десен клик на Databases -> Create -> Database.
+   Име: benchmark
+   Encoding: UTF8
+   Потврди Save.
+3. Десен клик на новата база benchmark -> Query Tool.
+4. Во Query Tool: File -> Open -> избери
+   benchmark-neuromorphic/database/database.sql
+5. Изврши го скриптот: копчето Execute / F5.
+6. Refresh на базата (F5 на дрвото) и отвори Schemas -> public -> Tables.
+   Треба да ги видиш:
+   - architectures
+   - datasets
+   - benchmark_runs
+   - benchmark_metrics
+   - migrations
+
+Важно:
+- Query Tool мора да е отворен ВРЗ базата benchmark, не врз postgres.
+- Скриптот почнува со DROP IF EXISTS, па ги создава табелите одново.
+  Ако го извршиш повторно врз иста база, постојните табели ќе се заменат.
+- Ако добиеш грешка за права, корисникот во pgAdmin треба да може да
+  прави CREATE/DROP TABLE на таа база.
+- Docker базата на :5432 (корисник benchmark / лозинка secret) е посебна
+  од локалниот PostgreSQL во pgAdmin, освен ако pgAdmin е поврзан токму
+  на Docker (host localhost, port 5432, database benchmark).
+
+================================================================================
+Крај на документот
+================================================================================

@@ -207,7 +207,205 @@
 <?php $component = $__componentOriginal51ca8f9b5f2319ee98f72ec28ea4da42; ?>
 <?php unset($__componentOriginal51ca8f9b5f2319ee98f72ec28ea4da42); ?>
 <?php endif; ?>
+            <?php if (isset($component)) { $__componentOriginal51ca8f9b5f2319ee98f72ec28ea4da42 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal51ca8f9b5f2319ee98f72ec28ea4da42 = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.ui.stat-card','data' => ['label' => 'Accuracy','value' => \App\Support\MetricsFormat::card($run->metric->accuracy)]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('ui.stat-card'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['label' => 'Accuracy','value' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(\App\Support\MetricsFormat::card($run->metric->accuracy))]); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal51ca8f9b5f2319ee98f72ec28ea4da42)): ?>
+<?php $attributes = $__attributesOriginal51ca8f9b5f2319ee98f72ec28ea4da42; ?>
+<?php unset($__attributesOriginal51ca8f9b5f2319ee98f72ec28ea4da42); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal51ca8f9b5f2319ee98f72ec28ea4da42)): ?>
+<?php $component = $__componentOriginal51ca8f9b5f2319ee98f72ec28ea4da42; ?>
+<?php unset($__componentOriginal51ca8f9b5f2319ee98f72ec28ea4da42); ?>
+<?php endif; ?>
+            <?php if (isset($component)) { $__componentOriginal51ca8f9b5f2319ee98f72ec28ea4da42 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal51ca8f9b5f2319ee98f72ec28ea4da42 = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.ui.stat-card','data' => ['label' => 'Precision','value' => \App\Support\MetricsFormat::card($run->metric->precision_score)]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('ui.stat-card'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['label' => 'Precision','value' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(\App\Support\MetricsFormat::card($run->metric->precision_score))]); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal51ca8f9b5f2319ee98f72ec28ea4da42)): ?>
+<?php $attributes = $__attributesOriginal51ca8f9b5f2319ee98f72ec28ea4da42; ?>
+<?php unset($__attributesOriginal51ca8f9b5f2319ee98f72ec28ea4da42); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal51ca8f9b5f2319ee98f72ec28ea4da42)): ?>
+<?php $component = $__componentOriginal51ca8f9b5f2319ee98f72ec28ea4da42; ?>
+<?php unset($__componentOriginal51ca8f9b5f2319ee98f72ec28ea4da42); ?>
+<?php endif; ?>
+            <?php if (isset($component)) { $__componentOriginal51ca8f9b5f2319ee98f72ec28ea4da42 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal51ca8f9b5f2319ee98f72ec28ea4da42 = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.ui.stat-card','data' => ['label' => 'Recall','value' => \App\Support\MetricsFormat::card($run->metric->recall)]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('ui.stat-card'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['label' => 'Recall','value' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(\App\Support\MetricsFormat::card($run->metric->recall))]); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal51ca8f9b5f2319ee98f72ec28ea4da42)): ?>
+<?php $attributes = $__attributesOriginal51ca8f9b5f2319ee98f72ec28ea4da42; ?>
+<?php unset($__attributesOriginal51ca8f9b5f2319ee98f72ec28ea4da42); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal51ca8f9b5f2319ee98f72ec28ea4da42)): ?>
+<?php $component = $__componentOriginal51ca8f9b5f2319ee98f72ec28ea4da42; ?>
+<?php unset($__componentOriginal51ca8f9b5f2319ee98f72ec28ea4da42); ?>
+<?php endif; ?>
+            <?php if (isset($component)) { $__componentOriginal51ca8f9b5f2319ee98f72ec28ea4da42 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal51ca8f9b5f2319ee98f72ec28ea4da42 = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.ui.stat-card','data' => ['label' => 'ROC-AUC','value' => \App\Support\MetricsFormat::card($run->metric->roc_auc)]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('ui.stat-card'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['label' => 'ROC-AUC','value' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(\App\Support\MetricsFormat::card($run->metric->roc_auc))]); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal51ca8f9b5f2319ee98f72ec28ea4da42)): ?>
+<?php $attributes = $__attributesOriginal51ca8f9b5f2319ee98f72ec28ea4da42; ?>
+<?php unset($__attributesOriginal51ca8f9b5f2319ee98f72ec28ea4da42); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal51ca8f9b5f2319ee98f72ec28ea4da42)): ?>
+<?php $component = $__componentOriginal51ca8f9b5f2319ee98f72ec28ea4da42; ?>
+<?php unset($__componentOriginal51ca8f9b5f2319ee98f72ec28ea4da42); ?>
+<?php endif; ?>
+            <?php if (isset($component)) { $__componentOriginal51ca8f9b5f2319ee98f72ec28ea4da42 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal51ca8f9b5f2319ee98f72ec28ea4da42 = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.ui.stat-card','data' => ['label' => 'Memory (MB)','value' => \App\Support\MetricsFormat::card($run->metric->memory_mb)]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('ui.stat-card'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['label' => 'Memory (MB)','value' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(\App\Support\MetricsFormat::card($run->metric->memory_mb))]); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal51ca8f9b5f2319ee98f72ec28ea4da42)): ?>
+<?php $attributes = $__attributesOriginal51ca8f9b5f2319ee98f72ec28ea4da42; ?>
+<?php unset($__attributesOriginal51ca8f9b5f2319ee98f72ec28ea4da42); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal51ca8f9b5f2319ee98f72ec28ea4da42)): ?>
+<?php $component = $__componentOriginal51ca8f9b5f2319ee98f72ec28ea4da42; ?>
+<?php unset($__componentOriginal51ca8f9b5f2319ee98f72ec28ea4da42); ?>
+<?php endif; ?>
+            <?php if (isset($component)) { $__componentOriginal51ca8f9b5f2319ee98f72ec28ea4da42 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal51ca8f9b5f2319ee98f72ec28ea4da42 = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.ui.stat-card','data' => ['label' => 'CPU Utilization (%)','value' => \App\Support\MetricsFormat::card($run->metric->cpu_utilization)]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('ui.stat-card'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['label' => 'CPU Utilization (%)','value' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(\App\Support\MetricsFormat::card($run->metric->cpu_utilization))]); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal51ca8f9b5f2319ee98f72ec28ea4da42)): ?>
+<?php $attributes = $__attributesOriginal51ca8f9b5f2319ee98f72ec28ea4da42; ?>
+<?php unset($__attributesOriginal51ca8f9b5f2319ee98f72ec28ea4da42); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal51ca8f9b5f2319ee98f72ec28ea4da42)): ?>
+<?php $component = $__componentOriginal51ca8f9b5f2319ee98f72ec28ea4da42; ?>
+<?php unset($__componentOriginal51ca8f9b5f2319ee98f72ec28ea4da42); ?>
+<?php endif; ?>
+            <?php if (isset($component)) { $__componentOriginal51ca8f9b5f2319ee98f72ec28ea4da42 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal51ca8f9b5f2319ee98f72ec28ea4da42 = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.ui.stat-card','data' => ['label' => 'GPU Utilization (%)','value' => \App\Support\MetricsFormat::card($run->metric->gpu_utilization)]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('ui.stat-card'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['label' => 'GPU Utilization (%)','value' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(\App\Support\MetricsFormat::card($run->metric->gpu_utilization))]); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal51ca8f9b5f2319ee98f72ec28ea4da42)): ?>
+<?php $attributes = $__attributesOriginal51ca8f9b5f2319ee98f72ec28ea4da42; ?>
+<?php unset($__attributesOriginal51ca8f9b5f2319ee98f72ec28ea4da42); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal51ca8f9b5f2319ee98f72ec28ea4da42)): ?>
+<?php $component = $__componentOriginal51ca8f9b5f2319ee98f72ec28ea4da42; ?>
+<?php unset($__componentOriginal51ca8f9b5f2319ee98f72ec28ea4da42); ?>
+<?php endif; ?>
         </div>
+
+        <?php
+            $roc = $run->metric->roc_curve ?? [];
+            $rocFpr = $roc['fpr'] ?? [];
+            $rocTpr = $roc['tpr'] ?? [];
+        ?>
+        <?php if(count($rocFpr) > 1): ?>
+            <?php if (isset($component)) { $__componentOriginaldae4cd48acb67888a4631e1ba48f2f93 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginaldae4cd48acb67888a4631e1ba48f2f93 = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.ui.card','data' => ['class' => 'mt-6']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('ui.card'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['class' => 'mt-6']); ?>
+                <h3 class="mb-4 text-lg font-semibold text-slate-900">ROC curve</h3>
+                <canvas id="rocChart" height="220"></canvas>
+             <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginaldae4cd48acb67888a4631e1ba48f2f93)): ?>
+<?php $attributes = $__attributesOriginaldae4cd48acb67888a4631e1ba48f2f93; ?>
+<?php unset($__attributesOriginaldae4cd48acb67888a4631e1ba48f2f93); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginaldae4cd48acb67888a4631e1ba48f2f93)): ?>
+<?php $component = $__componentOriginaldae4cd48acb67888a4631e1ba48f2f93; ?>
+<?php unset($__componentOriginaldae4cd48acb67888a4631e1ba48f2f93); ?>
+<?php endif; ?>
+            <script>
+                document.addEventListener('DOMContentLoaded', () => {
+                    const fpr = <?php echo json_encode($rocFpr, 15, 512) ?>;
+                    const tpr = <?php echo json_encode($rocTpr, 15, 512) ?>;
+                    new Chart(document.getElementById('rocChart'), {
+                        type: 'line',
+                        data: {
+                            labels: fpr,
+                            datasets: [{
+                                label: 'TPR',
+                                data: tpr.map((y, i) => ({ x: fpr[i], y })),
+                                borderColor: '#8b5cf6',
+                                backgroundColor: 'transparent',
+                                pointRadius: 0,
+                                tension: 0,
+                            }],
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: { legend: { display: false } },
+                            scales: {
+                                x: { type: 'linear', min: 0, max: 1, title: { display: true, text: 'False Positive Rate' } },
+                                y: { min: 0, max: 1, title: { display: true, text: 'True Positive Rate' } },
+                            },
+                        },
+                    });
+                });
+            </script>
+        <?php endif; ?>
     <?php else: ?>
         <?php if (isset($component)) { $__componentOriginaldae4cd48acb67888a4631e1ba48f2f93 = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginaldae4cd48acb67888a4631e1ba48f2f93 = $attributes; } ?>

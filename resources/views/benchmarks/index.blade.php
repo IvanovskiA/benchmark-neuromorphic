@@ -42,6 +42,21 @@
             </x-ui.card>
         </div>
 
+        <div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3">
+            <x-ui.card class="min-w-0">
+                <h3 class="mb-3 text-sm font-semibold text-slate-900">Avg Accuracy by Architecture</h3>
+                <canvas id="accuracyChart" height="200"></canvas>
+            </x-ui.card>
+            <x-ui.card class="min-w-0">
+                <h3 class="mb-3 text-sm font-semibold text-slate-900">Avg Precision by Architecture</h3>
+                <canvas id="precisionChart" height="200"></canvas>
+            </x-ui.card>
+            <x-ui.card class="min-w-0">
+                <h3 class="mb-3 text-sm font-semibold text-slate-900">Avg Recall by Architecture</h3>
+                <canvas id="recallChart" height="200"></canvas>
+            </x-ui.card>
+        </div>
+
         <x-ui.card class="mt-6">
             <h3 class="mb-4 text-lg font-semibold text-slate-900">KPI Overview</h3>
             <canvas id="kpiChart" height="200"></canvas>
@@ -136,6 +151,21 @@
                     },
                     options: logBarOptions(),
                 });
+
+                const classChart = (id, key, label, color) => {
+                    if (!document.getElementById(id) || !chartData[key]) return;
+                    new Chart(document.getElementById(id), {
+                        type: 'bar',
+                        data: {
+                            labels: chartData[key].labels,
+                            datasets: [{ label, data: chartData[key].values, backgroundColor: color }],
+                        },
+                        options: barOptions({ max: 1 }),
+                    });
+                };
+                classChart('accuracyChart', 'accuracy_by_architecture', 'Accuracy', '#0ea5e9');
+                classChart('precisionChart', 'precision_by_architecture', 'Precision', '#f59e0b');
+                classChart('recallChart', 'recall_by_architecture', 'Recall', '#ec4899');
 
                 new Chart(document.getElementById('kpiChart'), {
                     type: 'bar',

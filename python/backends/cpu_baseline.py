@@ -5,7 +5,8 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 
 from metrics.accuracy import compute_metrics
-from metrics.performance import profile_inference
+from metrics.bundle import pack_metrics
+from metrics.resources import profile_with_resources
 
 
 def _build_baseline():
@@ -19,11 +20,8 @@ def run(X_train, y_train, X_test, y_test) -> dict:
     model = _build_baseline()
     model.fit(X_train, y_train)
 
-    perf = profile_inference(model.predict, X_test, energy_factor=5e-10)
-    accuracy = compute_metrics(y_test, perf["predictions"])
+    perf = profile_with_resources(model.predict, X_test, energy_factor=5e-10)
+    scores = model.predict_proba(X_test)[:, 1]
+    accuracy = compute_metrics(y_test, perf["predictions"], scores)
 
-    return {
-        **{k: v for k, v in perf.items() if k != "predictions"},
-        **accuracy,
-        "backend": "cpu_baseline",
-    }
+    return pack_metrics(perf, accuracy, "cpu_baseline")

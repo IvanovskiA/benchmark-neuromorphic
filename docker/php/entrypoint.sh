@@ -31,6 +31,20 @@ else
     echo 'APP_URL=http://localhost:8080' >> .env
 fi
 
+if grep -q '^BENCHMARK_PYTHON=' .env; then
+    sed -i 's|^BENCHMARK_PYTHON=.*|BENCHMARK_PYTHON=/usr/local/bin/python3|' .env
+else
+    echo 'BENCHMARK_PYTHON=/usr/local/bin/python3' >> .env
+fi
+
+/usr/local/bin/python3 -c "import sklearn, psutil, numpy, pandas" 2>/dev/null \
+    || /usr/local/bin/pip3 install --no-cache-dir --default-timeout=1000 -r /var/www/html/python/requirements.txt
+
+/usr/local/bin/python3 -c "import torch" 2>/dev/null \
+    || /usr/local/bin/pip3 install --no-cache-dir --default-timeout=1000 typing_extensions sympy \
+        && /usr/local/bin/pip3 install --no-cache-dir --default-timeout=1000 torch --index-url https://download.pytorch.org/whl/cpu \
+    || true
+
 php artisan config:clear
 php artisan view:clear
 

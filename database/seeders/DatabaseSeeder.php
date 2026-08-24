@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
             ['slug' => 'ibm_nscs', 'name' => 'IBM NSCS / TrueNorth', 'is_neuromorphic' => true],
             ['slug' => 'cpu_baseline', 'name' => 'CPU Baseline', 'is_neuromorphic' => false],
             ['slug' => 'gpu_baseline', 'name' => 'GPU Baseline', 'is_neuromorphic' => false],
+            ['slug' => 'mnsim_imc', 'name' => 'MNSIM IMC', 'is_neuromorphic' => false],
         ];
 
         foreach ($architectures as $architecture) {
