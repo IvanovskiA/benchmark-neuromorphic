@@ -25,14 +25,13 @@ class MetricsFormat
         return rtrim(rtrim($formatted, '0'), '.') ?: '0';
     }
 
-    /** Fixed 4 decimal places for History / Charts tables. */
+    /**
+     * History / Charts tables: 4 decimal places, same as Run Details cards.
+     * Values that would collapse to 0.0000 (energy, tiny latency) use scientific notation.
+     */
     public static function table(mixed $value): string
     {
-        if ($value === null) {
-            return '—';
-        }
-
-        return number_format((float) $value, 4, '.', '');
+        return self::card($value);
     }
 
     public static function f1(mixed $value): string

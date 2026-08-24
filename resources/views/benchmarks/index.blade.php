@@ -57,7 +57,8 @@
             </x-ui.card>
         </div>
 
-        <x-ui.card class="mt-6">
+        <div style="height: 1rem;" aria-hidden="true"></div>
+        <x-ui.card>
             <h3 class="mb-4 text-lg font-semibold text-slate-900">KPI Overview</h3>
             <canvas id="kpiChart" height="200"></canvas>
         </x-ui.card>

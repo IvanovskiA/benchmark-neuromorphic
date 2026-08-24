@@ -44,7 +44,8 @@
             $rocTpr = $roc['tpr'] ?? [];
         @endphp
         @if(count($rocFpr) > 1)
-            <x-ui.card class="mt-6">
+            <div style="height: 2.5rem;" aria-hidden="true"></div>
+            <x-ui.card>
                 <h3 class="mb-4 text-lg font-semibold text-slate-900">ROC curve</h3>
                 <canvas id="rocChart" height="220"></canvas>
             </x-ui.card>
