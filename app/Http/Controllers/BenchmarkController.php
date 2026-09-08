@@ -53,20 +53,23 @@ class BenchmarkController extends Controller
             $service->run($run);
         } catch (\Throwable $e) {
             return redirect()
-                ->route('benchmarks.show', $run)
+                ->route('benchmarks.show', ['benchmark' => $run, 'from' => 'create'])
                 ->with('error', 'Benchmark failed: '.$e->getMessage());
         }
 
         return redirect()
-            ->route('benchmarks.show', $run)
+            ->route('benchmarks.show', ['benchmark' => $run, 'from' => 'create'])
             ->with('success', 'Benchmark completed successfully.');
     }
 
-    public function show(BenchmarkRun $benchmark): View
+    public function show(Request $request, BenchmarkRun $benchmark): View
     {
         $benchmark->load(['dataset', 'architecture', 'metric']);
 
-        return view('benchmarks.show', ['run' => $benchmark]);
+        return view('benchmarks.show', [
+            'run' => $benchmark,
+            'backUrl' => $this->showBackUrl($request),
+        ]);
     }
 
     public function destroy(BenchmarkRun $benchmark): RedirectResponse
@@ -220,5 +223,29 @@ class BenchmarkController extends Controller
     private function metricFloat(mixed $value): float
     {
         return (float) $value;
+    }
+
+    private function showBackUrl(Request $request): string
+    {
+        $create = route('benchmarks.create', [], false);
+        $history = route('benchmarks.history', [], false);
+
+        $from = $request->query('from');
+        if ($from === 'create') {
+            return $create;
+        }
+        if ($from === 'history') {
+            return $history;
+        }
+
+        $previous = (string) url()->previous();
+        if (str_contains($previous, '/benchmarks/create')) {
+            return $create;
+        }
+        if (str_contains($previous, '/benchmarks/history')) {
+            return $history;
+        }
+
+        return $history;
     }
 }

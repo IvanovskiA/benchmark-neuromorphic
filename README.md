@@ -19,7 +19,7 @@ Open: http://localhost:8080
 | **Intel Lava / Loihi** | `Loihi1SimCfg` CPU simulation (Lava framework) |
 | **IBM NSCS / TrueNorth** | TrueNorth LIF neuron model (NSCS-style) |
 | **MNSIM IMC** | In-Memory Computing adapter (`python/vendor/mnsim` + `backends/mnsim_imc.py`) |
-| **Baselines** | CPU (sklearn MLP) + GPU (PyTorch, CPU fallback) |
+| **Baselines** | CPU (sklearn MLP) + GPU (PyTorch; local CPU fallback, real CUDA via [Google Colab](python/colab/README.md)) |
 | **Metrics** | Latency, Throughput, Energy (J/Op), FPR, F1, Accuracy, Precision, Recall, ROC-AUC, Memory, CPU/GPU utilization |
 | **Visualization** | Chart.js graphs + comparison table |
 | **Methodology** | `/methodology` — architecture, datasets, framework |

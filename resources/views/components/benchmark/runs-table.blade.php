@@ -27,7 +27,7 @@
                     <td class="px-4 py-3 font-mono">{{ $run->metric?->latency_ms !== null ? \App\Support\MetricsFormat::table($run->metric->latency_ms) : '—' }}</td>
                     <td class="px-4 py-3">{{ $run->created_at->format('Y-m-d H:i') }}</td>
                     <td class="px-4 py-3 text-right">
-                        <a href="{{ route('benchmarks.show', $run, false) }}" class="text-brand-600 hover:text-brand-700">Details</a>
+                        <a href="{{ route('benchmarks.show', ['benchmark' => $run, 'from' => 'history'], false) }}" class="text-brand-600 hover:text-brand-700">Details</a>
                     </td>
                 </tr>
             @endforeach

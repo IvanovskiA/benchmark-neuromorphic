@@ -301,6 +301,17 @@ Laravel / DB:
   од локалниот PostgreSQL во pgAdmin, освен ако pgAdmin е поврзан токму
   на Docker (host localhost, port 5432, database benchmark).
 
+--------------------------------------------------------------------------------
+8. Colab CPU vs Colab GPU (вистински CUDA) — дополнително
+--------------------------------------------------------------------------------
+
+ШТО Е НАПРАВЕНО
+- Локалниот GPU baseline останува CPU fallback. GPU utilization = 0% е очекувано.
+- python/colab/ — notebook + run_colab_cpu_gpu.py (ист CPU MLP и ист PyTorch FFNN,
+  исти CICIDS/UNSW лоадери, JSON излез). Не се пренесува Laravel/Docker.
+- import_colab_metrics.py внесува completed runs во Postgres;
+- Methodology објаснува Colab CUDA и фер Colab CPU vs Colab GPU.
+
 ================================================================================
 Крај на документот
 ================================================================================

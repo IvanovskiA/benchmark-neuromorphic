@@ -1,0 +1,46 @@
+{
+  "results": [
+    {
+      "dataset": "cicids",
+      "architecture": "cpu_baseline",
+      "source": "google_colab",
+      "split": {"n_train": 2400, "n_test": 600, "n_features": 10},
+      "cuda_device": null,
+      "backend": "cpu_baseline",
+      "latency_ms": 0.0123,
+      "throughput_ops_per_sec": 81200.0,
+      "energy_joules_per_op": 5.1e-12,
+      "f1_score": 0.8012,
+      "false_positive_rate": 0.11,
+      "accuracy": 0.8100,
+      "precision_score": 0.7900,
+      "recall": 0.8120,
+      "roc_auc": 0.8800,
+      "memory_mb": 220.5,
+      "cpu_utilization": 41.2,
+      "gpu_utilization": 0.0,
+      "roc_curve": {"fpr": [0.0, 0.2, 1.0], "tpr": [0.0, 0.7, 1.0]}
+    },
+    {
+      "dataset": "cicids",
+      "architecture": "gpu_baseline",
+      "source": "google_colab",
+      "split": {"n_train": 2400, "n_test": 600, "n_features": 10},
+      "cuda_device": "Tesla T4",
+      "backend": "gpu_baseline",
+      "latency_ms": 0.0041,
+      "throughput_ops_per_sec": 244000.0,
+      "energy_joules_per_op": 8.2e-12,
+      "f1_score": 0.8082,
+      "false_positive_rate": 0.105,
+      "accuracy": 0.8125,
+      "precision_score": 0.8272,
+      "recall": 0.7900,
+      "roc_auc": 0.8979,
+      "memory_mb": 315.4,
+      "cpu_utilization": 18.5,
+      "gpu_utilization": 47.3,
+      "roc_curve": {"fpr": [0.0, 0.15, 1.0], "tpr": [0.0, 0.75, 1.0]}
+    }
+  ]
+}

@@ -17,8 +17,18 @@
                 <li><span class="font-medium text-neuromorphic">Intel Lava</span> — Loihi CPU simulation via <code class="rounded bg-slate-100 px-1.5 py-0.5 text-xs">Loihi1SimCfg</code></li>
                 <li><span class="font-medium text-neuromorphic">IBM NSCS</span> — TrueNorth neuromorphic simulator (LIF neuron model, binary synapses)</li>
                 <li><span class="font-medium text-slate-800">MNSIM IMC</span> — In-Memory Computing / PIM adapter of MNSIM 2.0 (crossbar MAC + DAC/ADC), not a spiking chip</li>
-                <li><span class="font-medium text-baseline">CPU / GPU baselines</span> — Von Neumann MLP / PyTorch reference for direct comparison</li>
+                <li><span class="font-medium text-baseline">CPU / GPU baselines</span> — Von Neumann MLP (sklearn) and PyTorch feed-forward network (64–32–1) for direct comparison</li>
             </ul>
+            <p class="mt-4 text-sm leading-relaxed text-slate-600">
+                The local Docker host has no NVIDIA GPU, so <code class="rounded bg-slate-100 px-1.5 py-0.5 text-xs">gpu_baseline</code>
+                uses a CPU fallback (<code class="rounded bg-slate-100 px-1.5 py-0.5 text-xs">gpu_baseline_cpu_fallback</code>).
+                GPU utilization = 0% in that environment is expected, not a measurement error.
+                True GPU numbers come from repeating the same Python backends on
+                <strong>Google Colab with NVIDIA CUDA</strong> (same CICIDS / UNSW-NB15 splits and the same PyTorch model).
+                For a fair conventional comparison, Colab runs both CPU baseline and GPU baseline on the same machine
+                and the same data; those rows are imported into the Charts results table.
+                Laravel, PostgreSQL, and Docker stay on the local host — only the Python benchmark runs in Colab.
+            </p>
         </x-ui.card>
 
         <x-ui.card>

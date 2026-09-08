@@ -5,7 +5,7 @@
             <p class="mt-1 text-sm text-slate-500">{{ $run->dataset->name }} · {{ $run->architecture->name }}</p>
         </div>
         <div class="flex gap-3">
-            <a href="{{ route('benchmarks.index', [], false) }}"><x-ui.button variant="secondary">Back</x-ui.button></a>
+            <a href="{{ $backUrl }}"><x-ui.button variant="secondary">Back</x-ui.button></a>
             <form action="{{ route('benchmarks.destroy', $run, false) }}" method="POST" onsubmit="return confirm('Delete this run?')">
                 @csrf
                 @method('DELETE')
@@ -23,7 +23,7 @@
     @endif
 
     @if($run->metric)
-        <div class="grid gap-6 sm:grid-cols-2 xl:grid-cols-5">
+        <div class="grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
             <x-ui.stat-card label="F1-score" :value="\App\Support\MetricsFormat::card($run->metric->f1_score)" />
             <x-ui.stat-card label="FPR" :value="\App\Support\MetricsFormat::card($run->metric->false_positive_rate)" />
             <x-ui.stat-card label="Latency (ms)" :value="\App\Support\MetricsFormat::card($run->metric->latency_ms)" />

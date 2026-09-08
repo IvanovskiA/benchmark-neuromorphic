@@ -30,16 +30,16 @@ unset($__defined_vars); ?>
 
 <?php if (isset($component)) { $__componentOriginaldae4cd48acb67888a4631e1ba48f2f93 = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginaldae4cd48acb67888a4631e1ba48f2f93 = $attributes; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.ui.card','data' => ['attributes' => $attributes->merge(['class' => 'hover:shadow-card-hover transition-shadow'])]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.ui.card','data' => ['attributes' => $attributes->merge(['class' => 'min-w-0 hover:shadow-card-hover transition-shadow'])]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
 <?php $component->withName('ui.card'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
 <?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['attributes' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($attributes->merge(['class' => 'hover:shadow-card-hover transition-shadow']))]); ?>
+<?php $component->withAttributes(['attributes' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($attributes->merge(['class' => 'min-w-0 hover:shadow-card-hover transition-shadow']))]); ?>
     <p class="text-sm font-medium text-slate-500"><?php echo e($label); ?></p>
-    <p class="mt-2 text-3xl font-bold text-slate-900"><?php echo e($value); ?></p>
+    <p class="mt-2 text-xl font-bold leading-snug text-slate-900" style="overflow-wrap: anywhere;"><?php echo e($value); ?></p>
  <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__attributesOriginaldae4cd48acb67888a4631e1ba48f2f93)): ?>

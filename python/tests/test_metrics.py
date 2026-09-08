@@ -33,6 +33,7 @@ def test_backends_registered() -> None:
     assert '"ibm_nscs"' in text
     assert '"mnsim_imc"' in text
     assert '"cpu_baseline"' in text
+    assert '"gpu_baseline"' in text
     print("BACKENDS registry ok")
 
 
